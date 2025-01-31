@@ -16,10 +16,13 @@ const appConfig = {
     },
     "ios": {
       "package": "com.dlmbaccay.bb",
+      "bundleIdentifier": "com.dlmbaccay.bb",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
       "package": "com.dlmbaccay.bb",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -29,8 +32,18 @@ const appConfig = {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
-    ]
+      "expo-router",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ],
   }
 }
 
