@@ -14,7 +14,7 @@ export default function Index() {
         if (user) {
           router.push('home');
         } else {
-          router.push('(auth)/landing');
+          router.push('(auth)/sign-in');
         }
       }
     });

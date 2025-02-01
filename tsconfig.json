@@ -3,7 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@env": ["./env.d.ts"]
+      "@env": ["./env.d.ts"],
+      "@app/*": ["./src/app/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@context/*": ["./src/context/*"],
+      "@models/*": ["./src/models/*"],
+      "@services/*": ["./src/services/*"]
     }
   },
 }

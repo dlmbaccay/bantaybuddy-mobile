@@ -2,16 +2,16 @@ import { router } from "expo-router";
 import { useEffect } from "react";
 import { Text, Button } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
-import auth from '@react-native-firebase/auth';
+import { signOut } from "@services/firebase";
 import { Alert } from "react-native";
-import { useUser } from "../context/UserContext";
+import { useUser } from "@context/UserContext";
 
 export default function HomePage() {
   const { currentUser } = useUser();
 
   const handleSignOut = async () => {
     try {
-      await auth().signOut();
+      await signOut();
       router.push('(auth)/landing');
     } catch (error: any) {
       Alert.alert('Error', error.message);
