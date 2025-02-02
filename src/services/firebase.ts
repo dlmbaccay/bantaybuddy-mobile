@@ -116,3 +116,12 @@ export const handleForgotPassword = async (email: string) => {
     throw error;
   }
 }
+
+export const handleUsernameCheck = async (uid: string): Promise<boolean> => {
+  try {
+    return await hasUsername(uid);
+  } catch (error: any) {
+    console.error('Error during username check:', error);
+    throw error;
+  }
+};
