@@ -6,6 +6,7 @@
       "@env": ["./env.d.ts"],
       "@app/*": ["./src/app/*"],
       "@assets/*": ["./src/assets/*"],
+      "@components/*": ["./src/components/*"],
       "@context/*": ["./src/context/*"],
       "@models/*": ["./src/models/*"],
       "@services/*": ["./src/services/*"]
