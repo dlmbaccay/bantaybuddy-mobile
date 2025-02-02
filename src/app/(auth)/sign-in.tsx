@@ -123,7 +123,7 @@ export default function SignIn() {
         <Button
           mode='contained'
           onPress={handleContinueWithGoogle}
-          className='h-12 w-full mt-4 rounded-[10px] bg-black flex items-center justify-center'
+          className='h-12 w-full mt-4 rounded-[10px] bg-black flex justify-center'
           icon={({ size }) => (
             <Image source={require('@assets/google-icon.png')} style={{ width: size, height: size }} />
           )}

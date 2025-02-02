@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import auth from '@react-native-firebase/auth';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "react-native-paper";
-import { handleUsernameCheck } from "@services/firebase";
+import { checkIfUserHasUsername } from "@services/firebase";
 import { useUser } from "@context/UserContext";
 
 export default function Index() {
@@ -14,10 +14,10 @@ export default function Index() {
     const unsubscribe = auth().onAuthStateChanged(user => {
       if (initializing) {
         if (user) {
-          handleUsernameCheck(user.uid)
+          checkIfUserHasUsername(user.uid)
           .then(hasUsername => {
             if (hasUsername) {
-              router.push('(app)/home');
+              router.push('home');
             } else {
               router.push('(auth)/account-setup');
             }
