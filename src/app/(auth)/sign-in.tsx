@@ -34,6 +34,7 @@ export default function SignIn() {
     
     } catch (error: any) {
       if (error.message === 'not-email-verified') Alert.alert('Error', 'Please verify your email first');
+      else if (error.code === 'auth/invalid-credential') Alert.alert('Error', 'Invalid email or password');
       else Alert.alert('Error', error.message);
     }
   };
