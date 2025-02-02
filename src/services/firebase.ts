@@ -1,17 +1,20 @@
 // todo: consider renaming this file to auth.ts
 
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { GOOGLE_CLIENT_ID } from '@env';
 
-import { User, createUserOnSignUp, createUserOnGoogleAuth, updateUserOnAccountSetup, hasUsername, alreadyRegistered } from '@models/User';
+import { 
+  User, 
+  createUserOnSignUp, 
+  createUserOnGoogleAuth, 
+  updateUserOnAccountSetup, 
+  hasUsername, 
+  alreadyRegistered,
+  getSignInMethod 
+} from '@models/User';
 
-GoogleSignin.configure({
-  webClientId: GOOGLE_CLIENT_ID,
-  offlineAccess: true,
-});
+GoogleSignin.configure({ webClientId: GOOGLE_CLIENT_ID, offlineAccess: true });
 
 export const handleEmailPasswordSignIn = async (email: string, password: string) => {
   try {
@@ -40,7 +43,7 @@ export const handleEmailPasswordSignUp = async (email: string, password: string)
     await userCredential.user?.sendEmailVerification();
 
     // create a user document in Firestore  
-    const newUser = { uid: userCredential.user.uid, email: email};
+    const newUser = { uid: userCredential.user.uid, email: email, signInMethod: 'email' };
     await createUserOnSignUp(newUser);
 
     return userCredential.user;
@@ -62,14 +65,16 @@ export const handleGoogleAuth = async (setCurrentUser: (user: FirebaseAuthTypes.
     // create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
-    // check if the email is already in use
-    const emailInUse = await alreadyRegistered(response.data?.user.email ?? '');
-    if (emailInUse) throw new Error('email-in-use');
-
     // sign-in the user with the credential
     const userCredential = await auth().signInWithCredential(googleCredential);
     const user = userCredential.user;
     setCurrentUser(user);
+    
+    const emailInUse = await alreadyRegistered(user.email ?? '');
+    const signInMethod = await getSignInMethod(user.uid);
+    if (emailInUse && signInMethod !== 'google') {
+      throw new Error('email-in-use');
+    }
 
     // check if the user has a username
     const hasUsernameFlag = await hasUsername(user.uid);
@@ -78,6 +83,7 @@ export const handleGoogleAuth = async (setCurrentUser: (user: FirebaseAuthTypes.
     if (!hasUsernameFlag) {
       const newUser = {
         uid: user.uid,
+        signInMethod: 'google',
         email: user.email ?? '',
         displayName: user.displayName ?? '',
         photoURL: user.photoURL ?? '',
@@ -99,3 +105,14 @@ export const signOut = async () => {
     throw error;
   }
 };
+
+export const handleForgotPassword = async (email: string) => {
+  try {
+    const emailInUse = await alreadyRegistered(email);
+    if (!emailInUse) throw new Error('user-not-found');
+
+    await auth().sendPasswordResetEmail(email);
+  } catch (error: any) {
+    throw error;
+  }
+}
