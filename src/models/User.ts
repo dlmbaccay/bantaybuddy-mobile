@@ -3,6 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 export interface User {
   uid: string;
   email: string;
+  signInMethod: string;
 
   username?: string;
   displayName?: string;
@@ -25,6 +26,7 @@ export interface User {
 export async function createUserOnGoogleAuth(user: User): Promise<User> {
   const newUser = {
     uid: user.uid,
+    signInMethod: user.signInMethod,
     email: user.email,
     displayName: user.displayName,
     photoURL: user.photoURL
@@ -43,6 +45,7 @@ export async function createUserOnGoogleAuth(user: User): Promise<User> {
 export async function createUserOnSignUp(user: User): Promise<User> {
   const newUser = {
     uid: user.uid,
+    signInMethod: 'email',
     email: user.email
   };
 
@@ -56,15 +59,6 @@ export async function createUserOnSignUp(user: User): Promise<User> {
   return newUser;
 }
 
-export async function hasUsername(uid: string): Promise<boolean> {
-  try {
-    const userDoc = await firestore().collection('users').doc(uid).get();
-    return userDoc.exists && !!userDoc.data()?.username;
-  } catch (error) {
-    console.error('Error checking username:', error);
-    throw error;
-  }
-}
 
 export async function updateUserOnAccountSetup(user: User, data: Partial<User>): Promise<User> {
   const updatedUser = {
@@ -88,6 +82,26 @@ export async function alreadyRegistered(email: string): Promise<boolean> {
     return !querySnapshot.empty;
   } catch (error) {
     console.error('Error checking email:', error);
+    throw error;
+  }
+}
+
+export async function hasUsername(uid: string): Promise<boolean> {
+  try {
+    const userDoc = await firestore().collection('users').doc(uid).get();
+    return userDoc.exists && !!userDoc.data()?.username;
+  } catch (error) {
+    console.error('Error checking username:', error);
+    throw error;
+  }
+}
+
+export async function getSignInMethod(uid: string): Promise<string> {
+  try {
+    const userDoc = await firestore().collection('users').doc(uid).get();
+    return userDoc.data()?.signInMethod;
+  } catch (error) {
+    console.error('Error getting sign-in method:', error);
     throw error;
   }
 }
