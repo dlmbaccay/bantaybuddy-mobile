@@ -59,13 +59,13 @@ export default function SignIn() {
     <SafeAreaView className='h-full flex justify-center items-center px-4'>
       <View className='flex flex-col gap-4 items-center justify-center mb-8'>
         <Image
-          source={require('../../assets/logo.png')}
+          source={require('@assets/logo.png')}
           resizeMode='contain'
           style={{ width: 80, height: 80 }}
         />
       </View>
 
-      <View className='flex flex-col itemsc-center justify-center w-full mb-4'>
+      <View className='flex flex-col items-center justify-center w-full mb-4'>
         <TextInput
           autoCapitalize='none'
           label='Email'
@@ -75,12 +75,13 @@ export default function SignIn() {
           mode='outlined'
           className='mb-4'
           theme={{ roundness: 10 }}
+          style={{ width: '100%' }}
         />
 
         <TextInput
           autoCapitalize='none'
           label='Password'
-          left={<TextInput.Icon icon={showPassword ? 'lock-open' : 'lock'} />}
+          left={<TextInput.Icon icon='lock' />}
           value={signInForm.password}
           onChangeText={(password) => setSignInForm({ ...signInForm, password })}
           mode='outlined'
@@ -88,9 +89,10 @@ export default function SignIn() {
           right={<TextInput.Icon icon={showPassword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(!showPassword)} />}
           className='mb-4'
           theme={{ roundness: 10 }}
+          style={{ width: '100%' }}
         />
 
-        <TouchableOpacity onPress={() => router.push('forgot-password')}>
+        <TouchableOpacity onPress={() => router.push('forgot-password')} className='w-full'>
           <Text className='font-semibold text-sm text-right' style={{ color: theme.colors.primary }}>
             Forgot Password
           </Text>

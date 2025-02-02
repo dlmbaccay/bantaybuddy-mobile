@@ -61,13 +61,13 @@ export default function SignUp() {
     <SafeAreaView className='h-full flex justify-center items-center px-4'>
       <View className='flex flex-col gap-4 items-center justify-center mb-8'>
         <Image
-          source={require('../../assets/logo.png')}
+          source={require('@assets/logo.png')}
           resizeMode='contain'
           style={{ width: 80, height: 80 }}
         />
       </View>
 
-      <View className='flex flex-col itemsc-center justify-center w-full mb-2'>
+      <View className='flex flex-col items-center justify-center w-full mb-2'>
         <TextInput
           autoCapitalize='none'
           label='Email'
@@ -77,6 +77,7 @@ export default function SignUp() {
           mode='outlined'
           className='mb-4'
           theme={{ roundness: 10 }}
+          style={{ width: '100%' }}
         />
 
         <TextInput
@@ -90,6 +91,7 @@ export default function SignUp() {
           right={<TextInput.Icon icon={showPassword ? 'eye-off' : 'eye'} onPress={() => setShowPassword(!showPassword)} />}
           className='mb-4'
           theme={{ roundness: 10 }}
+          style={{ width: '100%' }}
         />
 
         <TextInput
@@ -103,6 +105,8 @@ export default function SignUp() {
           right={<TextInput.Icon icon={showConfirmPassword ? 'eye-off' : 'eye'} onPress={() => setShowConfirmPassword(!showConfirmPassword)} />}
           className='mb-4'
           theme={{ roundness: 10 }}
+          style={{ width: '100%' }}
+
         />
       </View>
 
