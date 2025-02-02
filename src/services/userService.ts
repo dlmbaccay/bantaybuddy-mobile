@@ -20,7 +20,7 @@ export async function createUserOnGoogleAuth(user: User): Promise<User> {
   return newUser;
 }
 
-export async function createUserOnSignUp(user: User): Promise<User> {
+export async function createUserOnEmailSignUp(user: User): Promise<User> {
   const newUser = {
     uid: user.uid,
     signInMethod: user.signInMethod,

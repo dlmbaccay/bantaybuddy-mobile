@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, useTheme } from 'react-native-paper';
 import { View, Image, Alert, TouchableOpacity } from 'react-native';
-import { handleEmailPasswordSignUp, handleGoogleAuth } from "@services/firebase"
+import { handleEmailPasswordSignUp, handleGoogleAuth } from "@services/authService"
 import { useUser } from '@context/UserContext';
 import { router } from 'expo-router'
 import { TextInput } from 'react-native-paper';
-import { User } from '@models/User';
 
 export default function SignUp() {
   const theme = useTheme();

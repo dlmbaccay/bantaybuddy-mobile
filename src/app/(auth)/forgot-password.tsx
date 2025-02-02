@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { View, Image, Alert, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
-import { handleForgotPassword } from "@services/firebase"
+import { handleForgotPassword } from '@services/authService';
 
 export default function ForgotPassword() {
   const theme = useTheme();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button, Text, useTheme } from 'react-native-paper';
 import { View, Image, Alert, TouchableOpacity } from 'react-native';
-import { handleEmailPasswordSignIn, handleGoogleAuth } from "@services/firebase"
+import { handleEmailPasswordSignIn, handleGoogleAuth } from "@services/authService"
 import { useUser } from '@context/UserContext';
 import { router } from 'expo-router'
 import { TextInput } from 'react-native-paper';

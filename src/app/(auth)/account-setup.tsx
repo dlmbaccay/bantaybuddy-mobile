@@ -5,7 +5,10 @@ import { router } from 'expo-router';
 import { Button, Text, TextInput, HelperText, Avatar, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from "@context/UserContext";;
-import { handleUsernameAvailability, getUserInfo, handleAccountSetup, uploadProfilePhoto, signOut } from '@services/firebase';
+// import { check, getUserInfo } from '@services/firebase';
+import { checkUsernameAvailability, getUser } from '@services/userService';
+import { handleAccountSetup, signOut } from '@services/authService';
+import { uploadUserProfilePhoto } from '@services/storageService';
 import * as ImagePicker from 'expo-image-picker';
 
 import debounce from 'lodash.debounce';
@@ -27,7 +30,7 @@ const AccountSetup = () => {
     if (currentUser) {
       const getUserData = async () => {
         try {
-          const user = await getUserInfo(currentUser.uid);
+          const user = await getUser(currentUser.uid);
           if (user) {
             setForm((prev) => ({
               ...prev,
@@ -45,7 +48,7 @@ const AccountSetup = () => {
     }
   }, [currentUser]);
 
-  const checkUsernameAvailability = useCallback(
+  const handleUsernameAvailability = useCallback(
     debounce(async (username: string) => {
       if (!username.trim()) {
         setUsernameHelper('');
@@ -54,7 +57,7 @@ const AccountSetup = () => {
 
       try {
         setCheckingUsername(true);
-        const isAvailable = await handleUsernameAvailability(username);
+        const isAvailable = await checkUsernameAvailability(username);
         setIsAvailable(isAvailable);
         setUsernameHelper(isAvailable ? 'Username is available!' : 'Username is already taken.');
       } catch (error) {
@@ -80,7 +83,7 @@ const AccountSetup = () => {
 
         if (!form.photoURL) {
           // If user hasn't uploaded a photo, upload the default avatar
-          const uploadedPhotoURL = await uploadProfilePhoto(currentUser.uid);
+          const uploadedPhotoURL = await uploadUserProfilePhoto(currentUser.uid);
           if (uploadedPhotoURL) {
             finalPhotoURL = uploadedPhotoURL;
           } else {
@@ -118,7 +121,7 @@ const AccountSetup = () => {
       if (!result.canceled && result.assets.length > 0) {
         const imageUri = result.assets[0].uri;
         if (currentUser) {
-          const downloadURL = await uploadProfilePhoto(currentUser.uid, imageUri);
+          const downloadURL = await uploadUserProfilePhoto(currentUser.uid, imageUri);
           if (downloadURL) {
             setForm((prev) => ({ ...prev, photoURL: downloadURL })); // Update UI instantly
           }
@@ -181,7 +184,7 @@ const AccountSetup = () => {
           value={form.username}
           onChangeText={(text) => {
             setForm((prev) => ({ ...prev, username: text }));
-            checkUsernameAvailability(text);
+            handleUsernameAvailability(text);
           }}
           className='mb-2'
           theme={{ roundness: 10 }}
