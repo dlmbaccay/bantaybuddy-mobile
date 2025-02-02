@@ -2,7 +2,7 @@ import "dotenv/config";
 
 const appConfig = {
   "expo": {
-    "name": "bb-mobile",
+    "name": "BantayBuddy",
     "slug": "bb-mobile",
     "scheme": "bb-mobile",
     "version": "1.0.0",
