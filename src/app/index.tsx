@@ -4,21 +4,28 @@ import auth from '@react-native-firebase/auth';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "react-native-paper";
 import { handleUsernameCheck } from "@services/firebase";
+import { useUser } from "@context/UserContext";
 
 export default function Index() {
   const [initializing, setInitializing] = useState(true);
+  const { setCurrentUser } = useUser();
 
   useEffect(() => {
-    const handleAuthStateChanged = auth().onAuthStateChanged(user => {
+    const unsubscribe = auth().onAuthStateChanged(user => {
       if (initializing) {
         if (user) {
-          handleUsernameCheck(user.uid).then(hasUsername => {
+          handleUsernameCheck(user.uid)
+          .then(hasUsername => {
             if (hasUsername) {
               router.push('(app)/home');
             } else {
               router.push('(auth)/account-setup');
             }
+          }).catch(error => {
+            console.error(error);
           });
+
+          setCurrentUser(user);
         } else {
           router.push('(auth)/sign-in');
         }
@@ -27,8 +34,8 @@ export default function Index() {
       setInitializing(false);
     });
 
-    return () => handleAuthStateChanged();
-  }, [initializing]);
+    return () => unsubscribe();
+  }, [initializing, setCurrentUser]);
 
   if (initializing) {
     return (

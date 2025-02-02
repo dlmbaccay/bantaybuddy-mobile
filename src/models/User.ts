@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 export interface User {
   uid: string;
   email: string;
-  signInMethod: string;
+  signInMethod: string[];
 
   username?: string;
   displayName?: string;
@@ -45,7 +45,7 @@ export async function createUserOnGoogleAuth(user: User): Promise<User> {
 export async function createUserOnSignUp(user: User): Promise<User> {
   const newUser = {
     uid: user.uid,
-    signInMethod: 'email',
+    signInMethod: user.signInMethod,
     email: user.email
   };
 
@@ -58,7 +58,6 @@ export async function createUserOnSignUp(user: User): Promise<User> {
 
   return newUser;
 }
-
 
 export async function updateUserOnAccountSetup(user: User, data: Partial<User>): Promise<User> {
   const updatedUser = {
@@ -102,6 +101,25 @@ export async function getSignInMethod(uid: string): Promise<string> {
     return userDoc.data()?.signInMethod;
   } catch (error) {
     console.error('Error getting sign-in method:', error);
+    throw error;
+  }
+}
+
+export async function getUser(uid: string): Promise<User> {
+  try {
+    const userDoc = await firestore().collection('users').doc(uid).get();
+    return userDoc.data() as User;
+  } catch (error) {
+    console.error('Error getting user:', error);
+    throw error;
+  }
+}
+
+export async function updateSignInMethod(uid: string, data: Partial<User>): Promise<void> {
+  try {
+    await firestore().collection('users').doc(uid).update(data);
+  } catch (error) {
+    console.error('Error updating sign-in method:', error);
     throw error;
   }
 }

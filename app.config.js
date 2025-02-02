@@ -7,10 +7,10 @@ const appConfig = {
     "scheme": "bb-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/app-icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/assets/icon.png",
+      "image": "./src/assets/app-icon.png",
       "resizeMode": "contain",
     },
     "ios": {
@@ -23,12 +23,12 @@ const appConfig = {
       "package": "com.dlmbaccay.bb",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icon.png",
+        "foregroundImage": "./src/assets/app-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
     "web": {
-      "favicon": "./src/assets/icon.png"
+      "favicon": "./src/assets/app-icon.png"
     },
     "plugins": [
       "expo-router",

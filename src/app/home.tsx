@@ -12,7 +12,7 @@ export default function HomePage() {
   const handleSignOut = async () => {
     try {
       await signOut();
-      router.push('(auth)/landing');
+      router.push('(auth)/sign-in');
     } catch (error: any) {
       Alert.alert('Error', error.message);
     }

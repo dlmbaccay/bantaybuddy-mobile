@@ -11,7 +11,8 @@ import {
   updateUserOnAccountSetup, 
   hasUsername, 
   alreadyRegistered,
-  getSignInMethod 
+  getSignInMethod,
+  updateSignInMethod
 } from '@models/User';
 
 GoogleSignin.configure({ webClientId: GOOGLE_CLIENT_ID, offlineAccess: true });
@@ -43,7 +44,7 @@ export const handleEmailPasswordSignUp = async (email: string, password: string)
     await userCredential.user?.sendEmailVerification();
 
     // create a user document in Firestore  
-    const newUser = { uid: userCredential.user.uid, email: email, signInMethod: 'email' };
+    const newUser = { uid: userCredential.user.uid, email: email, signInMethod: ['email'] };
     await createUserOnSignUp(newUser);
 
     return userCredential.user;
@@ -54,44 +55,39 @@ export const handleEmailPasswordSignUp = async (email: string, password: string)
 
 export const handleGoogleAuth = async (setCurrentUser: (user: FirebaseAuthTypes.User | null) => void) => {
   try {
-    // access Google Sign-In
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
-    console.log(response);
-
-    // get the idToken from the response
     const idToken = response.data?.idToken ?? null;
-
-    // create a Google credential with the token
+    
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-
-    // sign-in the user with the credential
     const userCredential = await auth().signInWithCredential(googleCredential);
     const user = userCredential.user;
     setCurrentUser(user);
     
-    const emailInUse = await alreadyRegistered(user.email ?? '');
-    const signInMethod = await getSignInMethod(user.uid);
-    if (emailInUse && signInMethod !== 'google') {
-      throw new Error('email-in-use');
-    }
-
-    // check if the user has a username
-    const hasUsernameFlag = await hasUsername(user.uid);
-
-    // if the user does not have a username, create or update the user document
-    if (!hasUsernameFlag) {
+    const existingSignInMethod = (await getSignInMethod(user.uid)) ?? [];
+    
+    if (existingSignInMethod.includes('email')) {
+      // Merge accounts: append displayName, photoURL, and add 'google' to signInMethod
+      await updateSignInMethod(user.uid, {
+        signInMethod: [...new Set([...existingSignInMethod, 'google'])],
+        displayName: user.displayName ?? '',
+        photoURL: user.photoURL ?? '',
+      });
+    } else if (existingSignInMethod.includes('google')) { // Google already linked, no need to merge
+    } else {
+      // New Google user, create entry
       const newUser = {
         uid: user.uid,
-        signInMethod: 'google',
+        signInMethod: ['google'],
         email: user.email ?? '',
         displayName: user.displayName ?? '',
         photoURL: user.photoURL ?? '',
-      }
-
+      };
       await createUserOnGoogleAuth(newUser);
     }
 
+    const hasUsernameFlag: boolean = await hasUsername(user.uid);
+    
     return { isNewUser: !hasUsernameFlag };
   } catch (error: any) {
     throw error;

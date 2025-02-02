@@ -52,7 +52,6 @@ export default function SignUp() {
       if (isNewUser) router.push('account-setup');
       else router.push('home');
     } catch (error: any) {
-      if (error.message === 'email-in-use') Alert.alert('Error', 'This email is already in use');
       console.log(error);
     }
   };
