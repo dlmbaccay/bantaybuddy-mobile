@@ -46,6 +46,11 @@ export default function HomePage() {
           <Text className="text-lg mt-2">Username: {userData.username}</Text>
         </>
       )}
+
+      <Button mode="contained" onPress={() => router.push(`(profile)/(user)/${userData.uid}`)}>
+        Go to User Profile
+      </Button>
+
       <Button mode="contained" onPress={handleSignOut}>
         Sign Out
       </Button>

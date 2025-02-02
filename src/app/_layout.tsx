@@ -20,6 +20,7 @@ export default function RootLayout() {
           <Stack.Screen name="index" options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name="home" options={{ headerShown: false, gestureEnabled: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false, gestureEnabled: false }} />
+          <Stack.Screen name="(profile)" options={{ headerShown: false, gestureEnabled: false }} />
         </Stack>
       </PaperProvider>
     </UserProvider>
