@@ -19,6 +19,8 @@ export default function SignIn() {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSignIn = async () => {
     if (!signInForm.email || !signInForm.password) {
       Alert.alert('Error', 'Please fill in all fields');
@@ -26,6 +28,7 @@ export default function SignIn() {
     }
   
     try {
+      setSubmitting(true);
       const { user, hasUsername } = await handleEmailPasswordSignIn(signInForm.email, signInForm.password);
       setCurrentUser(user);
   
@@ -36,6 +39,8 @@ export default function SignIn() {
       if (error.message === 'not-email-verified') Alert.alert('Error', 'Please verify your email first');
       else if (error.code === 'auth/invalid-credential') Alert.alert('Error', 'Invalid email or password');
       else Alert.alert('Error', error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -96,6 +101,7 @@ export default function SignIn() {
         {/* Traditional Sign In */}
         <Button
           mode='contained'
+          disabled={submitting}
           className='h-12 w-full mt-4 rounded-[10px]'
           onPress={handleSignIn}
           style={{ backgroundColor: theme.colors.primary }}

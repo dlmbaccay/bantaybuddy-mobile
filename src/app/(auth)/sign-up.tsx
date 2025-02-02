@@ -22,6 +22,8 @@ export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const [submitting, setSubmitting] = useState(false);
+
   const handleSignUp = async () => {  
     if (!signUpForm.email || !signUpForm.password || !signUpForm.confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields');
@@ -30,15 +32,17 @@ export default function SignUp() {
       Alert.alert('Error', 'Passwords do not match');
       return;
     }
-
+    
     try {
+      setSubmitting(true);
       await handleEmailPasswordSignUp(signUpForm.email, signUpForm.password);
       Alert.alert('Success', `You're signed up. Please verify your email to continue`);
       router.push('(auth)/sign-in');
     } catch (error: any) {
       if (error.message === 'email-in-use') Alert.alert('Error', 'This email is already in use');
-      else
-      Alert.alert('Error', error.message);
+      else Alert.alert('Error', error.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -106,6 +110,7 @@ export default function SignUp() {
         {/* Traditional Sign In */}
         <Button
           mode='contained'
+          disabled={submitting}
           className='h-12 w-full mt-4 rounded-[10px]'
           onPress={handleSignUp}
           style={{ backgroundColor: theme.colors.primary }}
