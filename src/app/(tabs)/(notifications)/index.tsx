@@ -7,7 +7,6 @@ import { Alert } from "react-native";
 import { useUser } from "@context/UserContext";
 
 export default function NotificationsPage() {
-
   return (
     <SafeAreaView className="flex items-center justify-center h-full">
       <Text className="text-xl">Notifications Page</Text>
