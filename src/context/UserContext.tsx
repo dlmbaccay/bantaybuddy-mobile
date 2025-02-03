@@ -19,10 +19,10 @@ const UserContext = createContext<UserContextProps>({
 });
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<FirebaseAuthTypes.User | null>(null);
+  const [currentUser, setCurrentUserState] = useState<FirebaseAuthTypes.User | null>(null);
   const [userData, setUserData] = useState<any | null>(null);
 
-  // Fetch user Firestore data when currentUser changes
+  // Function to fetch Firestore user data
   const fetchUserData = async (uid: string) => {
     try {
       const userDoc = await firestore().collection('users').doc(uid).get();
@@ -42,13 +42,22 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [currentUser]);
 
-  // Function to manually refresh user data
+  // 🔄 Manually refresh user data
   const refreshUserData = async () => {
     if (currentUser) {
       await fetchUserData(currentUser.uid);
     }
   };
 
+  // 🛠 Modified setCurrentUser: Always fetch userData when setting a new user
+  const setCurrentUser = (user: FirebaseAuthTypes.User | null) => {
+    setCurrentUserState(user);
+    if (user) {
+      fetchUserData(user.uid);
+    }
+  };
+
+  // ✅ Keep `useUser()` working everywhere
   const contextValue = useMemo(
     () => ({ currentUser, setCurrentUser, userData, refreshUserData }),
     [currentUser, userData]
@@ -57,7 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   return <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>;
 };
 
-// Hook to access user data
+// ✅ Use this hook in all pages
 export const useUser = () => {
   const context = useContext(UserContext);
   if (!context) {
