@@ -23,7 +23,7 @@ const appConfig = {
       "package": "com.dlmbaccay.bb",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/app-icon.png",
+        "foregroundImage": "./src/assets/app-icon-foreground.png",
         "backgroundColor": "#ffffff"
       }
     },
