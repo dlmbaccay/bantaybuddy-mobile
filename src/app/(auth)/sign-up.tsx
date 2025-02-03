@@ -67,6 +67,7 @@ export default function SignUp() {
 
       <View className='flex flex-col items-center justify-center w-full mb-2'>
         <TextInput
+          autoCorrect={false}
           autoCapitalize='none'
           label='Email'
           left={<TextInput.Icon icon='email' />}
@@ -79,6 +80,7 @@ export default function SignUp() {
         />
 
         <TextInput
+          autoCorrect={false}
           autoCapitalize='none'
           label='Password'
           left={<TextInput.Icon icon={showPassword ? 'lock-open' : 'lock'} />}
@@ -93,6 +95,7 @@ export default function SignUp() {
         />
 
         <TextInput
+          autoCorrect={false}
           autoCapitalize='none'
           label='Confirm Password'
           left={<TextInput.Icon icon={showConfirmPassword ? 'lock-open' : 'lock'} />}
