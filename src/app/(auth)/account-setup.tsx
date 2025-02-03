@@ -50,18 +50,30 @@ const AccountSetup = () => {
 
   const handleUsernameAvailability = useCallback(
     debounce(async (username: string) => {
-      if (!username.trim()) {
-        setUsernameHelper('');
+      const trimmedUsername = username.trim();
+
+      if (!trimmedUsername) {
+        setUsernameHelper("Username cannot be empty.");
+        setIsAvailable(false);
+        return;
+      }
+
+      // Regex for valid usernames: 3-20 characters, only letters, numbers, and underscores
+      const usernameRegex = /^[a-zA-Z0-9_]{3,20}$/;
+
+      if (!usernameRegex.test(trimmedUsername) || /\s/.test(username)) {
+        setUsernameHelper("Username must be 3-20 characters, and contain only letters, numbers, or underscores.");
+        setIsAvailable(false);
         return;
       }
 
       try {
         setCheckingUsername(true);
-        const isAvailable = await checkUsernameAvailability(username);
+        const isAvailable = await checkUsernameAvailability(trimmedUsername);
         setIsAvailable(isAvailable);
-        setUsernameHelper(isAvailable ? 'Username is available!' : 'Username is already taken.');
+        setUsernameHelper(isAvailable ? "Username is available!" : "Username is already taken.");
       } catch (error) {
-        setUsernameHelper('Error checking username.');
+        setUsernameHelper("Error checking username.");
       } finally {
         setCheckingUsername(false);
       }
@@ -167,6 +179,7 @@ const AccountSetup = () => {
           </TouchableOpacity>
 
         <TextInput
+          autoCorrect={false}
           autoCapitalize='none'
           label='Display Name'
           mode='outlined'
@@ -178,13 +191,16 @@ const AccountSetup = () => {
         />
 
         <TextInput
+          autoCorrect={false}
           autoCapitalize='none'
           label='Username'
           mode='outlined'
           value={form.username}
           onChangeText={(text) => {
-            setForm((prev) => ({ ...prev, username: text }));
-            handleUsernameAvailability(text);
+            if (text.length === 0 || text.trim().length !== 0) {
+              setForm((prev) => ({ ...prev, username: text }));
+              handleUsernameAvailability(text);
+            }
           }}
           className='mb-2'
           theme={{ roundness: 10 }}
