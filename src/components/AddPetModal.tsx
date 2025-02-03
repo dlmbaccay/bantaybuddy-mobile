@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Platform, TouchableOpacity, Modal, Pressable, ScrollView } from "react-native";
-import { Portal, Button, Text, useTheme, TextInput, Chip, Avatar } from "react-native-paper";
+import { Portal, Button, Text, useTheme, TextInput, Chip, Avatar, SegmentedButtons, ActivityIndicator } from "react-native-paper";
 import { View } from "react-native";
 import { Asset } from 'expo-asset';
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -218,7 +218,7 @@ const AddPetModal = ({ visible, userData, onClose }: AddPetModalProps) => {
           </Text>
 
           <Button mode="text" onPress={handleAddPet} disabled={isUploading}>
-            <Text style={{ color: theme.colors.primary, fontSize: 16 }}>Add</Text>
+            {isUploading ? <ActivityIndicator color={theme.colors.primary} /> : <Text style={{ color: theme.colors.primary, fontSize: 16 }}>Add</Text>}
           </Button>
         </View>
         <ScrollView>
@@ -252,6 +252,29 @@ const AddPetModal = ({ visible, userData, onClose }: AddPetModalProps) => {
               mode="outlined"
               className="mb-4"
               style={{ width: "100%" }}
+            />
+
+            <SegmentedButtons
+              value={addPetForm.sex}
+              onValueChange={(value) => setAddPetForm((prev) => ({ ...prev, sex: value }))}
+              theme={{ roundness: 2 }}
+              style={{
+                marginBottom: 16,
+              }}
+              buttons={[
+                {
+                  icon: "gender-male",
+                  value: "male",
+                  label: "Male",
+                  style: { height: 48, justifyContent: "center" },
+                },
+                {
+                  icon: "gender-female",
+                  value: "female",
+                  label: "Female",
+                  style: { width: "100%", height: 48, justifyContent: "center" },
+                },
+              ]}
             />
 
             <View className="mb-2">
