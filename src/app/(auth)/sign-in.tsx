@@ -94,7 +94,7 @@ export default function SignIn() {
         />
 
         <TouchableOpacity onPress={() => router.push('forgot-password')} className='w-full'>
-          <Text className='font-semibold text-sm text-right' style={{ color: theme.colors.primary }}>
+          <Text className='font-bold text-sm text-right' style={{ color: theme.colors.primary }}>
             Forgot Password
           </Text>
         </TouchableOpacity>
@@ -105,11 +105,11 @@ export default function SignIn() {
         <Button
           mode='contained'
           disabled={submitting}
-          className='h-12 w-full mt-4 rounded-[10px]'
+          className={`h-12 w-full mt-4 rounded-[10px] flex justify-center ${submitting ? 'opacity-50' : ''}`}
           onPress={handleSignIn}
           style={{ backgroundColor: theme.colors.primary }}
           >
-          <Text className='font-semibold text-base' style={{ color: theme.colors.onPrimary }}>
+          <Text className='font-bold text-base' style={{ color: theme.colors.onPrimary }}>
             Sign In
           </Text>
         </Button>
@@ -130,7 +130,7 @@ export default function SignIn() {
             <Image source={require('@assets/google-icon.png')} style={{ width: size, height: size }} />
           )}
         >
-          <Text className='font-semibold text-base ' style={{ color: theme.colors.onPrimary }}>
+          <Text className='font-bold text-base' style={{ color: theme.colors.onPrimary }}>
             Continue with Google&nbsp;&nbsp;
           </Text>
         </Button>
@@ -141,7 +141,7 @@ export default function SignIn() {
             Don't have an account?&nbsp;
           </Text>
           <TouchableOpacity onPress={() => router.push('sign-up')}>
-          <Text className='font-semibold text-sm' style={{ color: theme.colors.primary }}>
+          <Text className='font-bold text-sm' style={{ color: theme.colors.primary }}>
             Sign Up
           </Text>
           </TouchableOpacity>

@@ -10,6 +10,7 @@ export default function ForgotPassword() {
 
   // form state
   const [email, setEmail] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   const handleForgotPasswordSubmit = async () => {
     if (!email) {
@@ -18,6 +19,7 @@ export default function ForgotPassword() {
     }
 
     try {
+      setSubmitting(true);
       await handleForgotPassword(email);
       Alert.alert('Success', `Password reset link sent to ${email}`);
       router.push('(auth)/sign-in');
@@ -29,6 +31,8 @@ export default function ForgotPassword() {
       } else {
         Alert.alert('Error', error.message);
       }
+    } finally {
+      setSubmitting(false);
     }
   }
 
@@ -61,15 +65,16 @@ export default function ForgotPassword() {
         <Button
           mode='contained'
           onPress={handleForgotPasswordSubmit}
-          className='h-12 rounded-[10px] flex items-center justify-center'
+          disabled={submitting}
+          className={`h-12 w-full rounded-[12px] flex justify-center ${submitting ? 'opacity-50' : ''}`}
         >
-          <Text className='text-white font-semibold text-base'>
+          <Text className='text-white font-bold text-base'>
             Reset Password
           </Text>
         </Button>
 
         <TouchableOpacity onPress={() => router.push('(auth)/sign-in')} className='mt-3'> 
-          <Text className='font-semibold text-sm text-right' style={{ color: theme.colors.primary }}>
+          <Text className='font-bold text-sm text-right' style={{ color: theme.colors.primary }}>
             Back to Sign In
           </Text>
         </TouchableOpacity>

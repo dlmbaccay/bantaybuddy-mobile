@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Button, Text, useTheme, ActivityIndicator } from 'react-native-paper';
 import { View, Image, Alert, TouchableOpacity } from 'react-native';
 import { handleEmailPasswordSignUp, handleGoogleAuth } from "@services/authService"
 import { useUser } from '@context/UserContext';
@@ -116,11 +116,11 @@ export default function SignUp() {
         <Button
           mode='contained'
           disabled={submitting}
-          className='h-12 w-full mt-4 rounded-[10px]'
+          className={`h-12 w-full mt-4 rounded-[10px] flex justify-center ${submitting ? 'opacity-50' : ''}`}
           onPress={handleSignUp}
           style={{ backgroundColor: theme.colors.primary }}
           >
-          <Text className='font-semibold text-base' style={{ color: theme.colors.onPrimary }}>
+          <Text className='font-bold text-base' style={{ color: theme.colors.onPrimary }}>
             Sign Up
           </Text>
         </Button>
@@ -141,7 +141,7 @@ export default function SignUp() {
             <Image source={require('@assets/google-icon.png')} style={{ width: size, height: size }} />
           )}
         >
-          <Text className='font-semibold text-base ' style={{ color: theme.colors.onPrimary }}>
+          <Text className='font-bold text-base' style={{ color: theme.colors.onPrimary }}>
             Continue with Google&nbsp;&nbsp;
           </Text>
         </Button>
@@ -152,7 +152,7 @@ export default function SignUp() {
             Already have an account?&nbsp;
           </Text>
           <TouchableOpacity onPress={() => router.push('sign-in')}>
-          <Text className='font-semibold text-sm' style={{ color: theme.colors.primary }}>
+          <Text className='font-bold text-sm' style={{ color: theme.colors.primary }}>
             Sign In
           </Text>
           </TouchableOpacity>
