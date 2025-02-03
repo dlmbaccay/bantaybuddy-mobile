@@ -28,6 +28,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       const userDoc = await firestore().collection('users').doc(uid).get();
       if (userDoc.exists) {
         setUserData(userDoc.data());
+      } else {
+        console.error('User document not found');
+        setUserData(null);
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -46,6 +49,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const refreshUserData = async () => {
     if (currentUser) {
       await fetchUserData(currentUser.uid);
+    } else {
+      setUserData(null);
     }
   };
 
@@ -54,6 +59,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     setCurrentUserState(user);
     if (user) {
       fetchUserData(user.uid);
+    } else {
+      setUserData(null);
     }
   };
 
