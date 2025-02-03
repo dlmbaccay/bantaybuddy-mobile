@@ -19,6 +19,7 @@ const AccountSetup = () => {
   const [checkingUsername, setCheckingUsername] = useState(false);
   const [usernameHelper, setUsernameHelper] = useState('');
   const [isAvailable, setIsAvailable] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const [form, setForm] = useState({
     username: '',
@@ -84,7 +85,7 @@ const AccountSetup = () => {
   const handleFinishAccountSetup = async () => {
     if (currentUser) {
       try {
-
+        setSubmitting(true);
         // if username is not available, return
         if (!isAvailable) {
           Alert.alert('Error', 'Username is already taken.');
@@ -109,6 +110,8 @@ const AccountSetup = () => {
       } catch (error) {
         console.error('Error setting up account:', error);
         Alert.alert('Error', 'Failed to set up account.');
+      } finally {
+        setSubmitting(false);
       }
     }
   };
@@ -221,7 +224,7 @@ const AccountSetup = () => {
           onPress={handleFinishAccountSetup}
           mode="contained"
           disabled={!form.username || !form.displayName || !isAvailable}
-          className='mt-4 w-full h-12 flex justify-center'
+          className={`mt-4 w-full h-12 flex justify-center ${submitting ? 'opacity-50' : ''}`}
           theme={{ roundness: 2 }}
         >
           <Text 
