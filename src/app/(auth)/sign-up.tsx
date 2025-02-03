@@ -48,8 +48,8 @@ export default function SignUp() {
   const handleContinueWithGoogle = async () => {
     try {
       const { isNewUser } = await handleGoogleAuth(setCurrentUser);
-      if (isNewUser) router.push('account-setup');
-      else router.push('home');
+      if (isNewUser) router.push('(auth)/account-setup');
+      else router.push('(home)');
     } catch (error: any) {
       console.log(error);
     }

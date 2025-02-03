@@ -16,11 +16,10 @@ export default function RootLayout() {
   return (
     <UserProvider>
       <PaperProvider theme={paperTheme}>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false, gestureEnabled: false }} />
-          <Stack.Screen name="home" options={{ headerShown: false, gestureEnabled: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false, gestureEnabled: false }} />
-          <Stack.Screen name="(profile)" options={{ headerShown: false, gestureEnabled: false }} />
+        <Stack screenOptions={{ headerShown: false, gestureEnabled: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(tabs)" />
         </Stack>
       </PaperProvider>
     </UserProvider>

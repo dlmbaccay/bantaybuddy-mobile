@@ -32,8 +32,8 @@ export default function SignIn() {
       const { user, hasUsername } = await handleEmailPasswordSignIn(signInForm.email, signInForm.password);
       setCurrentUser(user);
   
-      if (hasUsername) router.push('home');
-      else router.push('account-setup');
+      if (hasUsername) router.push('(home)');
+      else router.push('(auth)/account-setup');
     
     } catch (error: any) {
       if (error.message === 'not-email-verified') Alert.alert('Error', 'Please verify your email first');
@@ -47,8 +47,8 @@ export default function SignIn() {
   const handleContinueWithGoogle = async () => {
     try {
       const { isNewUser } = await handleGoogleAuth(setCurrentUser);
-      if (isNewUser) router.push('account-setup');
-      else router.push('home');
+      if (isNewUser) router.push('(auth)/account-setup');
+      else router.push('(home)');
     } catch (error: any) {
       console.log(error);
     }

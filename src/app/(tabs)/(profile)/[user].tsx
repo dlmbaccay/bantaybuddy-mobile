@@ -8,8 +8,8 @@ export default function UserProfile() {
 
   return (
     <SafeAreaView className='h-full flex justify-center items-center px-4'>
-      <Text>
-        Pet Profile
+      <Text className="text-xl">
+        User Profile
       </Text>
     </SafeAreaView>
   );

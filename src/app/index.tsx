@@ -6,7 +6,7 @@ import { Text } from "react-native-paper";
 import { hasUsername } from "@services/userService";
 import { useUser } from "@context/UserContext";
 
-export default function Index() {
+export default function RootPage() {
   const [initializing, setInitializing] = useState(true);
   const { setCurrentUser } = useUser();
 
@@ -17,7 +17,7 @@ export default function Index() {
           hasUsername(user.uid)
           .then(hasUsername => {
             if (hasUsername) {
-              router.push('home');
+              router.push('(home)');
             } else {
               router.push('(auth)/account-setup');
             }
