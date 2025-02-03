@@ -69,7 +69,7 @@ const AccountSetup = () => {
     []
   );
 
-  const handleFinish = async () => {
+  const handleFinishAccountSetup = async () => {
     if (currentUser) {
       try {
 
@@ -93,7 +93,7 @@ const AccountSetup = () => {
         }
 
         await handleAccountSetup(currentUser.uid, form.username, form.displayName);
-        router.replace('/home');
+        router.replace('(home)');
       } catch (error) {
         console.error('Error setting up account:', error);
         Alert.alert('Error', 'Failed to set up account.');
@@ -202,7 +202,7 @@ const AccountSetup = () => {
         )}
 
         <Button
-          onPress={handleFinish}
+          onPress={handleFinishAccountSetup}
           mode="contained"
           disabled={!form.username || !form.displayName || !isAvailable}
           className='mt-4 w-full h-12 flex justify-center'

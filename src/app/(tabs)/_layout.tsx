@@ -9,7 +9,7 @@ import CreatePostModal from "../../components/CreatePostModal";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const { theme } = useMaterial3Theme();
-  const [modalVisible, setModalVisible] = useState(false);
+  const [ createPostModalVisible, setCreatePostModalVisible ] = useState(false);
 
   const paperTheme =
     colorScheme === "dark"
@@ -19,7 +19,7 @@ export default function TabLayout() {
   return (
     <>
       {/* Create Post Modal */}
-      <CreatePostModal visible={modalVisible} onClose={() => setModalVisible(false)} />
+      <CreatePostModal visible={createPostModalVisible} onClose={() => setCreatePostModalVisible(false)} />
 
       {/* Bottom Navigation */}
       <Tabs
@@ -51,7 +51,7 @@ export default function TabLayout() {
             tabBarIcon: ({ color, focused }) =>
               <MaterialCommunityIcons name={focused ? "plus-circle" : "plus-circle-outline"} size={32} color={color} />,
             tabBarButton: (props) => (
-              <TouchableOpacity {...props} onPress={() => setModalVisible(true)} />
+              <TouchableOpacity {...props} onPress={() => setCreatePostModalVisible(true)} />
             ),
           }}
         />

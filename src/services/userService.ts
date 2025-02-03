@@ -104,3 +104,25 @@ export async function checkUsernameAvailability(username: string): Promise<boole
     throw error;
   }
 }
+
+export async function getIDfromUsername(username: string): Promise<string> {
+  try {
+    const querySnapshot = await firestore().collection('users').where('username', '==', username).get();
+    return querySnapshot.docs[0].id;
+  } catch (error) {
+    console.error('Error deriving ID from username:', error);
+    throw error;
+  }
+}
+
+export async function getAllUsernames(): Promise<string[]> {
+  try {
+    const querySnapshot = await firestore().collection('users').get();
+    return querySnapshot.docs
+      .map(doc => doc.data().username)
+      .filter(username => username && username.trim() !== '');
+  } catch (error) {
+    console.error('Error getting all usernames:', error);
+    throw error;
+  }
+}
