@@ -45,3 +45,7 @@ GoogleService-Info.plist
 image.d.ts
 env.d.ts
 nativewind-env.d.ts
+
+app.config.js
+babel.config.js
+eas.json

@@ -10,4 +10,8 @@ export interface Pet {
 
   favoriteFood?: string[];
   hobbies?: string[];
+
+  taggedPosts?: string[];
+  followers?: string[];
+  following?: string[];
 }

@@ -6,7 +6,7 @@ import { Button, Text, TextInput, HelperText, Avatar, useTheme } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUser } from "@context/UserContext";;
 // import { check, getUserInfo } from '@services/firebase';
-import { checkUsernameAvailability, getUser } from '@services/userService';
+import { checkUsernameAvailability, getUserDocument } from '@services/userService';
 import { handleAccountSetup, signOut } from '@services/authService';
 import { uploadUserProfilePhoto } from '@services/storageService';
 import * as ImagePicker from 'expo-image-picker';
@@ -31,7 +31,7 @@ const AccountSetup = () => {
     if (currentUser) {
       const getUserData = async () => {
         try {
-          const user = await getUser(currentUser.uid);
+          const user = await getUserDocument(currentUser.uid);
           if (user) {
             setForm((prev) => ({
               ...prev,

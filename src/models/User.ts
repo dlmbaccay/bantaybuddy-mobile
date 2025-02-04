@@ -6,13 +6,14 @@ export interface User {
   username?: string;
   displayName?: string;
   photoURL?: string;
-  coverPhotoURL?: string;
-  birthdate?: string;
-  sex?: string;
 
-  location?: string;
-  phoneNumber?: string;
-  bio?: string;
+  coverPhotoURL?: string; // can remove
+  birthdate?: string; // can remove
+  sex?: string; // can remove
+
+  location?: string; // can remove
+  phoneNumber?: string; // can remove
+  bio?: string; // limit to 120 characters.
 
   following?: string[];
   followers?: string[];

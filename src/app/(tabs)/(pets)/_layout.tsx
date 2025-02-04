@@ -5,7 +5,7 @@ export default function PetLayout() {
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false, gestureEnabled: false }} />
       <Stack.Screen name="edit" options={{ headerShown: false, gestureEnabled: false }} />
-      <Stack.Screen name="[pet]" options={{ headerShown: false, gestureEnabled: false }} />
+      <Stack.Screen name="[pet]" options={{ headerShown: false, gestureEnabled: true }} />
     </Stack>
   );
 };

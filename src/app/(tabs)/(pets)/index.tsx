@@ -1,18 +1,20 @@
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, Button, Avatar } from "react-native-paper";
+import { Text, Button, Avatar, ActivityIndicator, AnimatedFAB } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { signOut } from "@services/authService";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { useUser } from "@context/UserContext";
 import AddPetModal from "@components/AddPetModal";
 import { fetchUserPetsId } from "@services/userService";
-import { fetchPetsInfo } from "@services/petService";
+import { fetchOwnersPetsInfo } from "@services/petService";
 import { Pet } from "@models/Pet";
 
 export default function PetPage() {
   const { userData } = useUser();
   const [ addPostModalVisible, setAddPostModalVisible ] = useState(false);
+  const [isAddPetButtonExtended, setIsAddPetButtonExtended] = useState(true);
+  setTimeout(() => setIsAddPetButtonExtended(false), 1000);
 
   const [ pets, setPets ] = useState<Pet[]>([]);
 
@@ -22,13 +24,28 @@ export default function PetPage() {
 
     fetchUserPetsId(userData.uid)
     .then(petsId => {
-      fetchPetsInfo(petsId)
+      fetchOwnersPetsInfo(petsId)
       .then(pets => setPets(pets));
     });
   }, [userData]);
 
   return (
     <SafeAreaView className="flex items-center justify-center h-full">
+
+      {/* add pet button */}
+      <AnimatedFAB  
+        animateFrom="right"
+        extended={isAddPetButtonExtended}
+        label="Add Pet"
+        icon="plus"
+        onPress={() => setAddPostModalVisible(true)}
+        style={{
+          position: 'absolute',
+          margin: 16,
+          right: 0,
+          bottom: 0,
+        }}
+      />
 
       { pets.length === 0 && (
         <Text className="text-sm">
@@ -40,8 +57,9 @@ export default function PetPage() {
         {pets.map((pet, index) => (
           <TouchableOpacity
             key={pet.uid}
-            className="w-1/2 p-2 flex items-center justify-center"
-            onPress={() => router.push(`/pet/${pet.uid}`)}  
+            className="w-[30%] p-2 flex items-center justify-center"
+            // onPress={() => router.push(`/pet/${pet.uid}`)}  
+            onPress={() => router.push(`/(pets)/${pet.uid}`)}
           >
             <Avatar.Image size={80} source={{ uri: pet.photoURL }} />
             <Text className="mt-2 font-bold text-base">{pet.name}</Text>
@@ -55,15 +73,6 @@ export default function PetPage() {
         userData={userData}
         onClose={() => setAddPostModalVisible(false)} 
         />
-
-      <Button 
-        onPress={() => setAddPostModalVisible(true)}
-        mode="contained"
-        icon={"paw"}
-        className="mt-4"  
-      >
-        Add a pet
-      </Button>
     </SafeAreaView>
   );
 }

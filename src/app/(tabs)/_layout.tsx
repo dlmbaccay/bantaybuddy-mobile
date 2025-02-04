@@ -4,9 +4,11 @@ import { useMaterial3Theme } from "@pchmn/expo-material3-theme";
 import { MD3LightTheme, MD3DarkTheme } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import CreatePostModal from "../../components/CreatePostModal";
+import CreatePostModal from "@components/CreatePostModal";
+import { useUser } from "@context/UserContext";
 
 export default function TabLayout() {
+  const { currentUser } = useUser();
   const colorScheme = useColorScheme();
   const { theme } = useMaterial3Theme();
   const [ createPostModalVisible, setCreatePostModalVisible ] = useState(false);
@@ -70,10 +72,14 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="(profile)"
+          name={`(user)`}
           options={{
             tabBarIcon: ({ color, focused }) =>
               <MaterialCommunityIcons name={focused ? "account" : "account-outline"} size={28} color={color} />,
+            href: currentUser ? {
+              pathname: "(user)/[user]",
+              params: { user: currentUser.uid },
+            } : undefined
           }}
         />
       </Tabs>

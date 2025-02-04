@@ -16,12 +16,12 @@ const appConfig = {
     "ios": {
       "package": "com.dlmbaccay.bb",
       "bundleIdentifier": "com.dlmbaccay.bb",
-      "googleServicesFile": "./GoogleService-Info.plist",
+      "googleServicesFile": process.env.GOOGLE_SERVICES_INFO_PLIST || "./GoogleService-Info.plist",
       "supportsTablet": true
     },
     "android": {
       "package": "com.dlmbaccay.bb",
-      "googleServicesFile": "./google-services.json",
+      "googleServicesFile": process.env.GOOGLE_SERVICES_JSON || "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/app-icon-foreground.png",
         "backgroundColor": "#ffffff"

@@ -40,7 +40,7 @@ export const deletePetProfile = async (uid: string): Promise<void> => {
   }
 };
 
-export const getPet = async (uid: string): Promise<Pet | undefined> => {
+export const getPetDocument = async (uid: string): Promise<Pet | undefined> => {
   try {
     const snapshot = await firestore().collection('pets').doc(uid).get();
     return snapshot.data() as Pet;
@@ -60,7 +60,7 @@ export const getOwnerPets = async (ownerUid: string): Promise<Pet[]> => {
   }
 }
 
-export const fetchPetsInfo = async (petIds: string[]): Promise<Pet[]> => {
+export const fetchOwnersPetsInfo = async (petIds: string[]): Promise<Pet[]> => {
   try {
     const petDocs = await Promise.all(petIds.map(async petId => {
       const petDoc = await firestore().collection('pets').doc(petId).get();

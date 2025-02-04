@@ -85,7 +85,7 @@ export async function updateSignInMethod(uid: string, data: Partial<User>): Prom
   }
 }
 
-export async function getUser(uid: string): Promise<User> {
+export async function getUserDocument(uid: string): Promise<User> {
   try {
     const userDoc = await firestore().collection('users').doc(uid).get();
     return userDoc.data() as User;
@@ -144,4 +144,4 @@ export async function fetchUserPetsId(uid: string): Promise<string[]> {
     console.error("Error fetching user pets:", error);
     throw error;
   }
-}
+} 
