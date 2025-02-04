@@ -126,3 +126,22 @@ export async function getAllUsernames(): Promise<string[]> {
     throw error;
   }
 }
+
+export async function fetchUserPetsId(uid: string): Promise<string[]> {
+  try {
+    const userDoc = await firestore().collection('users').doc(uid).get();
+
+    if (!userDoc.exists) {
+      console.warn(`User document with UID ${uid} does not exist.`);
+      return []; // ✅ Return an empty array if user doc is missing
+    }
+
+    const userData = userDoc.data();
+    const pets = userData?.pets ?? []; // Ensure it's always an array
+
+    return pets;
+  } catch (error) {
+    console.error("Error fetching user pets:", error);
+    throw error;
+  }
+}

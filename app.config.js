@@ -43,6 +43,11 @@ const appConfig = {
         }
       ]
     ],
+    "extra": {
+      "eas": {
+        "projectId": "84fe613c-f6ad-41e7-a3a2-9536a6e2bf90"
+      }
+    }
   }
 }
 

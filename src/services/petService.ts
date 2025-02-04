@@ -59,3 +59,16 @@ export const getOwnerPets = async (ownerUid: string): Promise<Pet[]> => {
     throw error;
   }
 }
+
+export const fetchPetsInfo = async (petIds: string[]): Promise<Pet[]> => {
+  try {
+    const petDocs = await Promise.all(petIds.map(async petId => {
+      const petDoc = await firestore().collection('pets').doc(petId).get();
+      return petDoc.data() as Pet;
+    }));
+    return petDocs;
+  } catch (error) {
+    console.error('Error fetching pets:', error);
+    throw error;
+  }
+};
