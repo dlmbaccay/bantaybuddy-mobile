@@ -12,9 +12,6 @@
         "env": {
           "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
         }
-      },
-      "ios": {
-        "GOOGLE_SERVICES_INFO_PLIST": "@GOOGLE_SERVICES_INFO_PLIST"
       }
     },
     "preview": {
@@ -24,9 +21,6 @@
         "env": {
           "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
         }
-      },
-      "ios": {
-        "GOOGLE_SERVICES_INFO_PLIST": "@GOOGLE_SERVICES_INFO_PLIST"
       }
     },
     "production": {
@@ -36,9 +30,6 @@
         "env": {
           "GOOGLE_SERVICES_JSON": "@GOOGLE_SERVICES_JSON"
         }
-      },
-      "ios": {
-        "GOOGLE_SERVICES_INFO_PLIST": "@GOOGLE_SERVICES_INFO_PLIST"
       }
     }
   },
