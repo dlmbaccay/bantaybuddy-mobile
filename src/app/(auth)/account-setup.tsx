@@ -15,7 +15,7 @@ import debounce from 'lodash.debounce';
 
 const AccountSetup = () => {
   const theme = useTheme();
-  const { currentUser, setCurrentUser } = useUser();
+  const { currentUser, setCurrentUser, refreshUserData } = useUser();
   const [checkingUsername, setCheckingUsername] = useState(false);
   const [usernameHelper, setUsernameHelper] = useState('');
   const [isAvailable, setIsAvailable] = useState(false);
@@ -106,6 +106,7 @@ const AccountSetup = () => {
         }
 
         await handleAccountSetup(currentUser.uid, form.username, form.displayName);
+        await refreshUserData();
         router.replace('(home)');
       } catch (error) {
         console.error('Error setting up account:', error);
