@@ -1,4 +1,4 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { onSnapshot, doc, collection } from '@react-native-firebase/firestore';
 import { User } from '@models/User';
 
 export async function createUserOnGoogleAuth(user: User): Promise<User> {
@@ -7,7 +7,18 @@ export async function createUserOnGoogleAuth(user: User): Promise<User> {
     signInMethod: user.signInMethod,
     email: user.email,
     displayName: user.displayName,
-    photoURL: user.photoURL
+    photoURL: user.photoURL,
+
+    birthdate: '',
+    sex: '',
+    location: '',
+    phoneNumber: '',
+    bio: '',
+
+    following: [],
+    followers: [],
+    posts: [],
+    pets: []
   };
 
   try {
@@ -24,7 +35,22 @@ export async function createUserOnEmailSignUp(user: User): Promise<User> {
   const newUser = {
     uid: user.uid,
     signInMethod: user.signInMethod,
-    email: user.email
+    email: user.email,
+
+    username: '',
+    displayName: '',
+    photoURL: '',
+
+    birthdate: '',
+    sex: '',
+    location: '',
+    phoneNumber: '',
+    bio: '',
+
+    following: [],
+    followers: [],
+    posts: [],
+    pets: []
   };
 
   try {
@@ -145,3 +171,45 @@ export async function fetchUserPetsId(uid: string): Promise<string[]> {
     throw error;
   }
 } 
+
+export async function checkIfFollowing(uid: string, followerID: string): Promise<boolean> {
+  try {
+    const userDoc = await firestore().collection('users').doc(uid).get();
+    return userDoc.data()?.following.includes(followerID);
+  } catch (error) {
+    console.error('Error checking if following:', error);
+    throw error;
+  }
+}
+
+export async function followUser(followerID: string, profileID: string): Promise<void> {
+  try {
+    await firestore().collection('users').doc(followerID).update({
+      following: firestore.FieldValue.arrayUnion(profileID)
+    });
+
+    await firestore().collection('users').doc(profileID).update({
+      followers: firestore.FieldValue.arrayUnion(followerID)
+    });
+    
+  } catch (error) {
+    console.error('Error following user:', error);
+    throw error;
+  }
+}
+
+export async function unfollowUser(followerID: string, profileID: string): Promise<void> {
+  try {
+    await firestore().collection('users').doc(followerID).update({
+      following: firestore.FieldValue.arrayRemove(profileID)
+    });
+
+    await firestore().collection('users').doc(profileID).update({
+      followers: firestore.FieldValue.arrayRemove(followerID)
+    });
+    
+  } catch (error) {
+    console.error('Error unfollowing user:', error);
+    throw error;
+  }
+}

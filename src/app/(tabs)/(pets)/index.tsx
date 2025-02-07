@@ -58,7 +58,6 @@ export default function PetPage() {
           <TouchableOpacity
             key={pet.uid}
             className="w-[30%] p-2 flex items-center justify-center"
-            // onPress={() => router.push(`/pet/${pet.uid}`)}  
             onPress={() => router.push(`/(pets)/${pet.uid}`)}
           >
             <Avatar.Image size={80} source={{ uri: pet.photoURL }} />

@@ -6,8 +6,7 @@ export interface User {
   username?: string;
   displayName?: string;
   photoURL?: string;
-
-  coverPhotoURL?: string; // can remove
+  
   birthdate?: string; // can remove
   sex?: string; // can remove
 

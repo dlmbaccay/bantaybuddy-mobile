@@ -8,6 +8,7 @@ export interface Pet {
   birthdate: string;
   birthplace: string;
 
+  bio?: string;
   favoriteFood?: string[];
   hobbies?: string[];
 
