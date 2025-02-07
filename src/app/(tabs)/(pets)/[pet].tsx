@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Icon, Button, Text, TextInput, useTheme, Avatar } from 'react-native-paper';
+import { Icon, Button, Chip, Text, TextInput, useTheme, Avatar } from 'react-native-paper';
 import { View, Image, Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { getPetDocument } from '@services/petService';
@@ -91,6 +91,17 @@ export default function PetProfile() {
             {pet?.bio}
             test bio
           </Text>
+
+          {/* hobbies and favorite food chips */}
+          <View className='flex flex-row flex-wrap mt-4'>
+            {pet?.hobbies?.map(hobby => (
+              <Chip icon='heart' mode='flat' className='mr-2 mb-2'>{hobby}</Chip>
+            ))}
+
+            {pet?.favoriteFood?.map(food => (
+              <Chip icon='food-drumstick' mode='flat' className='mr-2 mb-2'>{food}</Chip>
+            ))}
+          </View>
 
           <View className='flex flex-row justify-between items-center w-full mt-4'>
             { pet?.owners.includes(currentUser?.uid ?? '') && (
